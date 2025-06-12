@@ -16,5 +16,5 @@ public class Summative {
     public static void main(String[] args) {
         Sketch.main("summative.Sketch");
     }
-    
+
 }

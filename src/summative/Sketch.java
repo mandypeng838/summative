@@ -17,6 +17,19 @@ public class Sketch extends PApplet {
     public void setup() {
         background(255,255,255);
         person.draw();
+        
+        if (keyPressed) {
+            if (keyCode == LEFT) {
+              person.move(-5, 0);
+            } else if (keyCode == RIGHT) {
+              person.move(5, 0);
+            } else if (keyCode == UP) {
+              person.move(0, -5);
+            } else if (keyCode == DOWN) {
+              person.move(0, 5);
+            }
+          }
+
     }
     
 }
