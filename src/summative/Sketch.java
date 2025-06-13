@@ -11,14 +11,14 @@ public class Sketch extends PApplet {
     
     public void settings() {
         size (1000, 800);
-        person = new Person(this, 200, 200, "Sun Wukong", 0, "images/wukongsprite.png");
+        person = new Person(this, 400, 300, "Sun Wukong", 0, "images/wukongsprite.png");
     }
     
     public void setup() {
         background(255,255,255);
         person.draw();
         
-        if (keyPressed) {
+        //if (keyPressed) {
             if (keyCode == LEFT) {
               person.move(-5, 0);
             } else if (keyCode == RIGHT) {
@@ -28,8 +28,8 @@ public class Sketch extends PApplet {
             } else if (keyCode == DOWN) {
               person.move(0, 5);
             }
-          }
-
+         // }
+        
     }
     
 }
