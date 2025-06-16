@@ -4,12 +4,11 @@
  */
 package summative;
 
-import java.util.List;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -17,18 +16,17 @@ import java.util.Scanner;
  * @author Windows
  */
 public class DialogueManager {
-    public String[] loadDialogue(String filename){
-        List<String> lines = new ArrayList<>();
-        try{
+    public String loadDialogue(String filename){
+        try {
             Scanner scanner = new Scanner(new File(filename));
-            while (scanner.hasNextLine()){
-                lines.add(scanner.nextLine());
+            if (scanner.hasNextLine()) {
+                return scanner.nextLine(); // Only return the first line
             }
             scanner.close();
-        } catch (IOException e) {
-            System.out.println("Failed to load dialogue: " + e);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + filename);
         }
-        return lines.toArray(new String[0]);
+        return null;
     }
     
     public void saveDialogue(String filename, String[] lines){

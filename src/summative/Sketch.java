@@ -4,30 +4,41 @@
  */
 package summative;
 
+// imports
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Sketch extends PApplet {
+    // Create all characters
     private Person wukong;
     private Person scripture;
     private Person scripture2;
     private Person scripture3;
+    
+    // Import all the background images for different scenes
     private PImage introBackground;
     private PImage collectionBackground1;
     private PImage collectionBackground2;
     private PImage collectionBackground3;
     private PImage endingBackground;
-    private String[] introDialogue;
-    private int dialogueIndex = 0;
+    
+    // variables to display dialogue from the into.txt file
+    private String introDialogue;
     private boolean showIntro = true;
+    // game states
     private boolean moveEnabled = false;
     private boolean inCollectionScene = false;
+    // variables to display dialogue from the ending.txt file
     private boolean showEnding = false;
-    private String[] endingDialogue;
-    private int endingDialogueIndex = 0;
+    private String endingDialogue;
+    // game states
     private boolean scriptureCollected = false;
     private static int scripturesCollectedCount = 0;
     
+    // set the window size
     public void settings() {
         size(1000, 800);
     }
@@ -35,66 +46,62 @@ public class Sketch extends PApplet {
     public void setup() {
         // Create Wukong character
         wukong = new Person(this, 400, 300, "Sun Wukong", 0, "images/wukongsprite.png");
-        /// Create first scripture at initial position
-        scripture = new Person(this, 100, 100, "Scripture1", 0, "images/scripture.png");
-        // Create second scripture
+        
+        /// Create all three scriptures in different positions
+        scripture = new Person(this, "Scripture1", "images/scripture.png");
+        scripture.setX(100);
+        scripture.setY(100);
+        
         scripture2 = new Person (this, 700, 200, "Scripture2", 0, "images/scripture.png");
-        //Create third scripture
         scripture3 = new Person (this, 400, 600, "Scripture3", 0, "images/scripture.png");
-        // Load background AFTER settings()
+        
+        // Load all the background images
         introBackground = loadImage("images/introBackground.png");
-        // Load first collection background image
         collectionBackground1 = loadImage("images/background1.png");
         collectionBackground2 = loadImage("images/background2.png");
         collectionBackground3 = loadImage("images/background3.png");
-        // Load ending background
         endingBackground = loadImage("images/endingBackground.png");
         
-        // Load dialogue from file
+        // Load dialogues from files
         DialogueManager dialogueManager = new DialogueManager();
         introDialogue = dialogueManager.loadDialogue("intro.txt");
         endingDialogue = dialogueManager.loadDialogue("ending.txt");
     }
 
     public void draw() {
+        // The intro scene
         if (showIntro) {
             image(introBackground, 0, 0, width, height);  // draw background
             wukong.draw();  // draw sprite on top
 
-            // Dialogue box
+            // Creates the dialogue box
             fill(255, 230); // semi-transparent white box
             rect(50, height - 120, width - 100, 100);
 
-            // Text
+            // Writes the text on the dialogue box
             fill(0);
             textSize(18);
             textAlign(LEFT, TOP);
-            if (dialogueIndex < introDialogue.length) {
-                text(introDialogue[dialogueIndex], 60, height - 110, width - 120, 90);
-            } else {
-                showIntro = false;
-                moveEnabled = true;
-                inCollectionScene = true;
-            }
-        } else if (showEnding) {
+            text(introDialogue, 60, height - 110, width - 120, 90);
+        } else if (showEnding) { // ending scene
+            // draws background
             image(endingBackground, 0, 0, width, height);
 
-            // Re-center Wukong on screen
+            // moves the wukong sprite back to center of the screen
             wukong.setX(width / 2 - wukong.getImage().width / 2);
             wukong.setY(height / 2 - wukong.getImage().height / 2);
             wukong.draw();
-
+            
+            // creates the dialogue box again and displays ending dialogue
             fill(255, 230);
             rect(50, height - 120, width - 100, 100);
 
             fill(0);
             textSize(18);
             textAlign(LEFT, TOP);
-            if (endingDialogueIndex < endingDialogue.length) {
-                text(endingDialogue[endingDialogueIndex], 60, height - 110, width - 120, 90);
-            }
-        } else if (inCollectionScene) {
-            // Set appropriate background
+            text(endingDialogue, 60, height - 110, width - 120, 90);
+        } else if (inCollectionScene) { // collection scene (gameplay)
+            // sets different backgrounds based on the user's progress
             if (scripturesCollectedCount == 0) {
                 image(collectionBackground1, 0, 0, width, height);
             } else if (scripturesCollectedCount == 1) {
@@ -103,14 +110,14 @@ public class Sketch extends PApplet {
                 image(collectionBackground3, 0, 0, width, height);
             }
             
-            // Display collection status text
+            // Displays the progress message
             fill(0);
             textSize(20);
             text("Collect the scriptures! Scripture " + (scripturesCollectedCount + 1) + " of 3.", 20, 20);
 
-            // Draw Wukong and scripture
+            // Draw Wukong and scriptures
             wukong.draw();
-            // Draw only the active scripture and check for collision
+            // Check for collision and draw the scripture based on collected count
             if (scripturesCollectedCount == 0 && !scriptureCollected) {
                 scripture.draw();
                 if (wukong.isCollidingWith(scripture)) {
@@ -128,7 +135,7 @@ public class Sketch extends PApplet {
                 }
             }
 
-            // If collected, show message
+            // If a scripture was just collected, show a message to tell the user
             if (scriptureCollected) {
                 fill(0, 150, 0);
                 text("Good work! Press ENTER to continue.", width / 3 - 100, height / 2);
@@ -137,6 +144,7 @@ public class Sketch extends PApplet {
     }
 
     public void keyPressed() {
+        // On the intro scene, if user presses ENTER the game begins
         if (showIntro) {
             if (key == ENTER) {
                 showIntro = false;
@@ -144,13 +152,24 @@ public class Sketch extends PApplet {
                 moveEnabled = true;
             }
         } else if (inCollectionScene && scriptureCollected && key == ENTER){
-            scripturesCollectedCount++;
+            scripturesCollectedCount++; // move to next scripture
             scriptureCollected = false;
-
+                
+                // if user collected all three, goes to ending scene
                 if (scripturesCollectedCount >= 3) {
                     inCollectionScene = false;
                     moveEnabled = false;
                     showEnding = true;
+                    
+                    // Write to file how many scriptures the user collected
+                    try {
+                        FileWriter fw = new FileWriter ("progress.txt");
+                        PrintWriter writer = new PrintWriter(fw);
+                        writer.println("Scriptures collected: " + scripturesCollectedCount);
+                        writer.close();
+                    } catch (IOException e) {
+                        System.out.println("IOException error" + e);
+                    }
                 }
         } else if (moveEnabled) {
             if (keyCode == LEFT) {
@@ -164,20 +183,5 @@ public class Sketch extends PApplet {
             } 
         }
         
-        if (showEnding) {
-            image(endingBackground, 0, 0, width, height);  // draw ending background
-            wukong.draw();  // draw Wukong in the center
-
-            // Draw text box
-            fill(255, 230); // semi-transparent
-            rect(50, height - 120, width - 100, 100);
-
-            fill(0);
-            textSize(18);
-            textAlign(LEFT, TOP);
-            if (endingDialogueIndex < endingDialogue.length) {
-                text(endingDialogue[endingDialogueIndex], 60, height - 110, width - 120, 90);
-            }
-        }
     }
 }

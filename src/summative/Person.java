@@ -27,6 +27,11 @@ public class Person {
         this.sprite = app.loadImage(imagePath);
     }
     
+    // Overloaded constructor
+    public Person(PApplet p, String name, String imagePath) {
+        this(p, 0, 0, name, 0, imagePath); // call main constructor with default values
+    }
+    
     public void move(int dx, int dy){
         x += dx;
         y += dy;
