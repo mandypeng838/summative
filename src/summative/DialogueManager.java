@@ -22,10 +22,12 @@ public class DialogueManager {
     public String loadDialogue(String filename){
         try {
             Scanner scanner = new Scanner(new File(filename));
-            if (scanner.hasNextLine()) {
-                return scanner.nextLine(); // Only return the first line
+            String dialogue = "";
+            while (scanner.hasNextLine()){
+                dialogue += scanner.nextLine();
             }
             scanner.close();
+            return dialogue;
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + filename);
         }
