@@ -16,11 +16,15 @@ public class Sketch extends PApplet {
     private PImage collectionBackground1;
     private PImage collectionBackground2;
     private PImage collectionBackground3;
+    private PImage endingBackground;
     private String[] introDialogue;
     private int dialogueIndex = 0;
     private boolean showIntro = true;
     private boolean moveEnabled = false;
     private boolean inCollectionScene = false;
+    private boolean showEnding = false;
+    private String[] endingDialogue;
+    private int endingDialogueIndex = 0;
     private boolean scriptureCollected = false;
     private static int scripturesCollectedCount = 0;
     
@@ -43,9 +47,13 @@ public class Sketch extends PApplet {
         collectionBackground1 = loadImage("images/background1.png");
         collectionBackground2 = loadImage("images/background2.png");
         collectionBackground3 = loadImage("images/background3.png");
+        // Load ending background
+        endingBackground = loadImage("images/endingBackground.png");
+        
         // Load dialogue from file
         DialogueManager dialogueManager = new DialogueManager();
         introDialogue = dialogueManager.loadDialogue("intro.txt");
+        endingDialogue = dialogueManager.loadDialogue("ending.txt");
     }
 
     public void draw() {
@@ -67,6 +75,23 @@ public class Sketch extends PApplet {
                 showIntro = false;
                 moveEnabled = true;
                 inCollectionScene = true;
+            }
+        } else if (showEnding) {
+            image(endingBackground, 0, 0, width, height);
+
+            // Re-center Wukong on screen
+            wukong.setX(width / 2 - wukong.getImage().width / 2);
+            wukong.setY(height / 2 - wukong.getImage().height / 2);
+            wukong.draw();
+
+            fill(255, 230);
+            rect(50, height - 120, width - 100, 100);
+
+            fill(0);
+            textSize(18);
+            textAlign(LEFT, TOP);
+            if (endingDialogueIndex < endingDialogue.length) {
+                text(endingDialogue[endingDialogueIndex], 60, height - 110, width - 120, 90);
             }
         } else if (inCollectionScene) {
             // Set appropriate background
@@ -125,13 +150,8 @@ public class Sketch extends PApplet {
                 if (scripturesCollectedCount >= 3) {
                     inCollectionScene = false;
                     moveEnabled = false;
-                    background(255);
-                    fill(0);
-                    textSize(30);
-                    textAlign(CENTER, CENTER);
-                    text("You collected all scriptures!", width / 2, height / 2);
+                    showEnding = true;
                 }
-            
         } else if (moveEnabled) {
             if (keyCode == LEFT) {
                 wukong.move(-25, 0);
@@ -142,6 +162,22 @@ public class Sketch extends PApplet {
             } else if (keyCode == DOWN) {
                     wukong.move(0, 25);
             } 
+        }
+        
+        if (showEnding) {
+            image(endingBackground, 0, 0, width, height);  // draw ending background
+            wukong.draw();  // draw Wukong in the center
+
+            // Draw text box
+            fill(255, 230); // semi-transparent
+            rect(50, height - 120, width - 100, 100);
+
+            fill(0);
+            textSize(18);
+            textAlign(LEFT, TOP);
+            if (endingDialogueIndex < endingDialogue.length) {
+                text(endingDialogue[endingDialogueIndex], 60, height - 110, width - 120, 90);
+            }
         }
     }
 }

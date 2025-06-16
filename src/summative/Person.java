@@ -50,7 +50,23 @@ public class Person {
         return d < 60;
     }
     
-    public String speak(){
-        return name + " says hello.";
+    public void setX(int newX) {
+        this.x = newX;
+    }
+
+    public void setY(int newY) {
+        this.y = newY;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public PImage getImage() {
+        return sprite;
     }
 }

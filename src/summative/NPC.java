@@ -18,18 +18,5 @@ public class NPC extends Person {
         this.dialogues = dialogues;
 
     }
-    
-    @Override
-    public String speak() {
-        return dialogues[0]; //simple default
-    }
-    
-    public void interact(Person p){
-       // interaction logic here
-    }
-    
-    public void draw(){
-        // add code here
-    }
 
 }
