@@ -36,6 +36,20 @@ public class Person {
         app.image(sprite, x, y);
     }
     
+    public boolean isCollidingWith (Person other){
+        // calculates the ccenter of this image
+        int centerX = x+(sprite.pixelWidth/2);
+        int centerY = y+(sprite.pixelHeight/2);
+        // calculates the center of the other image
+        int otherCenterX = other.x+(other.sprite.pixelWidth/2);
+        int otherCenterY = other.y+(other.sprite.pixelHeight/2);
+        // calculates the distance between the two center points
+        float d = PApplet.dist(otherCenterX, otherCenterY, centerX, centerY);
+        
+        // returns true if the distance between the 2 center points is less than 50 pixels
+        return d < 60;
+    }
+    
     public String speak(){
         return name + " says hello.";
     }

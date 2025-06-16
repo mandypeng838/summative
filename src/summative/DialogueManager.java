@@ -17,7 +17,7 @@ import java.util.Scanner;
  * @author Windows
  */
 public class DialogueManager {
-    public String[] loadDialoge(String filename){
+    public String[] loadDialogue(String filename){
         List<String> lines = new ArrayList<>();
         try{
             Scanner scanner = new Scanner(new File(filename));
