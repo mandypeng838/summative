@@ -16,7 +16,7 @@ public class Person {
     private String name;
     private int age;
     private PApplet app;
-    private PImage image;
+    private PImage sprite;
     
     public Person(PApplet p, int x, int y, String name, int age, String imagePath){
         this.app = p;
@@ -24,7 +24,7 @@ public class Person {
         this.y = y;
         this.name = name;
         this.age = age;
-        this.image = app.loadImage(imagePath);
+        this.sprite = app.loadImage(imagePath);
     }
     
     public void move(int dx, int dy){
@@ -33,6 +33,10 @@ public class Person {
     }
     
     public void draw(){
-        app.image(image, x, y);
+        app.image(sprite, x, y);
+    }
+    
+    public String speak(){
+        return name + " says hello.";
     }
 }
