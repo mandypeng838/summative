@@ -6,9 +6,6 @@ package summative;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
@@ -16,6 +13,12 @@ import java.util.Scanner;
  * @author Windows
  */
 public class DialogueManager {
+
+    /**
+     * This method loads the dialogue from txt files
+     * @param filename
+     * @return
+     */
     public String loadDialogue(String filename){
         try {
             Scanner scanner = new Scanner(new File(filename));
@@ -27,17 +30,5 @@ public class DialogueManager {
             System.out.println("File not found: " + filename);
         }
         return null;
-    }
-    
-    public void saveDialogue(String filename, String[] lines){
-        try{
-            FileWriter fw = new FileWriter (filename);
-            PrintWriter writer = new PrintWriter(fw);
-            for (String line: lines){
-                writer.println(line);
-            }
-        } catch (IOException e){
-            System.out.println("Failed to save dialogue: " + e);
-        }
     }
 }

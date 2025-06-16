@@ -18,11 +18,6 @@ public class SceneManager {
         currentSceneIndex = 0;
     }
     
-    public void loadScenes(){
-        // placeholder loaidng logic
-        System.out.println("Scenes loaded.");
-    }
-    
     public void nextScene(){
         if (currentSceneIndex < totalScenes - 1) {
             currentSceneIndex++;

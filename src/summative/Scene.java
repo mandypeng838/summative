@@ -14,6 +14,13 @@ public class Scene {
     private NPC npc;
     private boolean hasScripture;
     
+    /**
+     * Constructor for a scene
+     * @param sceneID
+     * @param description
+     * @param npc
+     * @param hasScripture
+     */
     public Scene(int sceneID, String description, NPC npc, boolean hasScripture){
         this.sceneID = sceneID;
         this.description = description;
@@ -21,15 +28,4 @@ public class Scene {
         this.hasScripture = hasScripture;
     }
     
-    public void displayScene(){
-    // draw background, characters, etc
-    }
-    
-    public boolean checkIfCompleted(){
-        return !hasScripture;
-    }
-    
-    public NPC getNpc(){
-        return npc;
-    }
 }

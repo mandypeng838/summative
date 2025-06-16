@@ -18,6 +18,15 @@ public class Person {
     private PApplet app;
     private PImage sprite;
     
+    /**
+     * Constructor for characters
+     * @param p
+     * @param x
+     * @param y
+     * @param name
+     * @param age
+     * @param imagePath
+     */
     public Person(PApplet p, int x, int y, String name, int age, String imagePath){
         this.app = p;
         this.x = x;
@@ -27,20 +36,38 @@ public class Person {
         this.sprite = app.loadImage(imagePath);
     }
     
-    // Overloaded constructor
+    /**
+     * An overloaded constructor for the scripture/characters for easier use
+     * @param p
+     * @param name
+     * @param imagePath
+     */
     public Person(PApplet p, String name, String imagePath) {
         this(p, 0, 0, name, 0, imagePath); // call main constructor with default values
     }
     
+    /**
+     * moves the character
+     * @param dx
+     * @param dy
+     */
     public void move(int dx, int dy){
         x += dx;
         y += dy;
     }
     
+    /**
+     * draws the character
+     */
     public void draw(){
         app.image(sprite, x, y);
     }
     
+    /**
+     * checks if one character is colliding with another character
+     * @param other
+     * @return
+     */
     public boolean isCollidingWith (Person other){
         // calculates the ccenter of this image
         int centerX = x+(sprite.pixelWidth/2);
@@ -55,22 +82,26 @@ public class Person {
         return d < 60;
     }
     
-    public void setX(int newX) {
-        this.x = newX;
+    /**
+     * method to set the x coordinate of a character
+     * @param x
+     */
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public void setY(int newY) {
-        this.y = newY;
+    /**
+     * method to set the y coordinate of a character
+     * @param y
+     */
+    public void setY(int y) {
+        this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
+    /**
+     * returns the image for the character
+     * @return
+     */
     public PImage getImage() {
         return sprite;
     }
